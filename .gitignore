@@ -1,0 +1,6 @@
+### VS Code ###
+.vscode/
+
+build
+npm-debug.log
+node_modules
