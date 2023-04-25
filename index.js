@@ -1,5 +1,6 @@
 // import Express to a constant using require()
 const express = require('express');
+require("./db");
 // Call that constant as function to initialise the Express application
 const app = express();
 
@@ -19,9 +20,9 @@ const logger = (req, res, next) => {
 // Use our own middleware logger
 app.use(logger);
 
-// Import our router
+// Import our router 
 const catRoutes = require("./routes/cats");
-// Use it and add /cats to the path (so path will be localhost:post/cats/___)
+//  Use the router add /cats to the path (so path will be localhost:post/cats/___)
 app.use("/cats", catRoutes);
 
 // Error handling middleware - called by request methods if needed
