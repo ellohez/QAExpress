@@ -64,13 +64,27 @@ describe("API Tests", () => {
     // Test delete
     it("Should delete the test cat", (done) => {
         chai.request(server)
-            .delete(`/cats/remove/${testCat.id}`)
+            .delete(`/cats/remove/${testCat._id}`)
             .send()
             .end((err, res) => {
                 chai.expect(err).to.be.null;
-                console.log(`testCat ID: ${testCat._id}`);
-                chai.expect(res.body._id).to.equal(testCat._id);
+                chai.expect(res.body).to.deep.equal(testCat); // Could also use to.include
                 chai.expect(res.status).to.equal(200);
+                done();
+            });
+    });
+
+    // Test delete
+    it("Should update the test cat to - Jerry", (done) => {
+        testCat.name = "Jerry";
+        chai.request(server)
+            .patch(`/cats/update/${testCat._id}?`)
+            .query({ name: testCat.name })
+            .end((err, res) => {
+                chai.expect(err).to.be.null;
+                chai.expect(res.body).to.include(testCat);
+                chai.expect(res.status).to.equal(200);
+                done();
             });
     });
 
