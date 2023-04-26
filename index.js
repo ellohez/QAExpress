@@ -38,3 +38,6 @@ app.use((err, req, res, next) => {
 // pass a callback to .listen(), to log useful info about the server
 const server = app.listen(4494, ()=> 
                 console.log('server started on port number', server.address().port));
+
+// Export server for use elsewhere
+module.exports = server;  
