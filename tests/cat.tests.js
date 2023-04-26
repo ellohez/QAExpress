@@ -74,7 +74,7 @@ describe("API Tests", () => {
             });
     });
 
-    // Test delete
+    // Test update
     it("Should update the test cat to - Jerry", (done) => {
         testCat.name = "Jerry";
         chai.request(server)
@@ -84,6 +84,19 @@ describe("API Tests", () => {
                 chai.expect(err).to.be.null;
                 chai.expect(res.body).to.include(testCat);
                 chai.expect(res.status).to.equal(200);
+                done();
+            });
+    });
+
+    // Test delete fail
+    it(`Should fail to delete - 404`, (done) => {
+        chai.request(server)
+            .delete(`/cats/remove/`)
+            .send()
+            .end((err, res) => {
+                chai.expect(err).to.be.null;
+                // chai.expect(res.body).to.deep.equal(testCat); // Could also use to.include
+                chai.expect(res.status).to.equal(404);
                 done();
             });
     });
