@@ -1,24 +1,29 @@
-const chai = require("chai");
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-undef */
+const chai = require('chai');
+
 // Plug-in to send requests
-const chaiHttp = require("chai-http");
+const chaiHttp = require('chai-http');
+
 chai.use(chaiHttp);
-// Import our server
-const server = require("../index");
 // Import mongoose for after test clean up
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+// Import our server
+const server = require('../index');
 // Import DB schema class
-const { catModel } = require("../db");
+const { catModel } = require('../db');
 
 // Describe a test "suite" with the given title and callback fn containing nested suites.
-describe("API Tests", () => {
+describe('API Tests', () => {
     // Clear the cats from the DB and add one
     let testCat;
     beforeEach(async () => {
         await catModel.deleteMany({});
         // Create a cat in Mongo DB for testing
         testCat = await catModel.create({
-            name: "Jason",
-            colour: "Tabby",
+            name: 'Jason',
+            colour: 'Tabby',
             evil: false,
         });
 
@@ -32,10 +37,10 @@ describe("API Tests", () => {
     // with the given title and callback fn acting as a thunk (fn with delay).
 
     // Test create
-    it("Should create a cat", (done) => {
-        const cat = { name: "Deux", colour: "Black", evil: true };
+    it('Should create a cat', (done) => {
+        const cat = { name: 'Deux', colour: 'Black', evil: true };
         chai.request(server)
-            .post("/cats/create")
+            .post('/cats/create')
             .send(cat)
             .end((err, res) => {
                 chai.expect(err).to.be.null;
@@ -48,9 +53,9 @@ describe("API Tests", () => {
     });
 
     // Test getAll
-    it("Should return all cats", (done) => {
+    it('Should return all cats', (done) => {
         chai.request(server)
-            .get("/cats/getAll")
+            .get('/cats/getAll')
             .send()
             .end((err, res) => {
                 chai.expect(err).to.be.null;
@@ -62,7 +67,7 @@ describe("API Tests", () => {
     });
 
     // Test delete
-    it("Should delete the test cat", (done) => {
+    it('Should delete the test cat', (done) => {
         chai.request(server)
             .delete(`/cats/remove/${testCat._id}`)
             .send()
@@ -75,8 +80,8 @@ describe("API Tests", () => {
     });
 
     // Test update
-    it("Should update the test cat to - Jerry", (done) => {
-        testCat.name = "Jerry";
+    it('Should update the test cat to - Jerry', (done) => {
+        testCat.name = 'Jerry';
         chai.request(server)
             .patch(`/cats/update/${testCat._id}?`)
             .query({ name: testCat.name })
@@ -89,9 +94,9 @@ describe("API Tests", () => {
     });
 
     // Test delete fail
-    it(`Should fail to delete - 404`, (done) => {
+    it('Should fail to delete - 404', (done) => {
         chai.request(server)
-            .delete(`/cats/remove/`)
+            .delete('/cats/remove/')
             .send()
             .end((err, res) => {
                 chai.expect(err).to.be.null;

@@ -1,6 +1,8 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-undef */
 // Cat handling code
-const router = require("express").Router();
-const { catModel } = require("../db");
+const router = require('express').Router();
+const { catModel } = require('../db');
 
 // Cats to save
 const cats = [];
@@ -12,32 +14,32 @@ const cats = [];
 // req is an object that represents the received request and can be used to view
 // sent data and request metadata such as headers, cookies, etc.
 // router.get('/getAll', (req, res) => {res.json(cats)});
-router.get("/getAll", async (req, res) => {
+router.get('/getAll', async (req, res) => {
     try {
         const found = await catModel.find({});
         res.status(200).json(found);
     } catch (err) {
         return next({
             status: 500,
-            msg: "Cat herding fail",
+            msg: 'Cat herding fail',
         });
     }
 });
 
 // Post requests create data
-router.post("/create", async ({ body }, res, next) => {
+router.post('/create', async ({ body }, res, next) => {
     try {
         const created = await catModel.create(body);
         res.status(201).json(created);
     } catch (err) {
         return next({
             status: 500,
-            msg: "Oops",
+            msg: 'Oops',
         });
     }
 });
 
-router.delete("/remove/:id", async (req, res, next) => {
+router.delete('/remove/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const removed = await catModel.findByIdAndDelete(id);
@@ -45,27 +47,26 @@ router.delete("/remove/:id", async (req, res, next) => {
     } catch (err) {
         return next({
             status: 404,
-            msg: "Nope!",
+            msg: 'Nope!',
         });
     }
 });
 
 // Patch - partial update request method
-router.patch("/update/:id", async (req, res, next) => {
+router.patch('/update/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        if (id >= cats.length)
-            return next({ msg: `ID: ${id} out of bounds`, status: 404 });
+        if (id >= cats.length) { return next({ msg: `ID: ${id} out of bounds`, status: 404 }); }
         const { name } = req.query;
         const catToUpdate = await catModel.findByIdAndUpdate(id, req.query, {
-            returnDocument: "after",
+            returnDocument: 'after',
         });
         catToUpdate.name = name;
         res.status(200).json(catToUpdate);
     } catch (err) {
         return next({
             status: 404,
-            msg: "Nope!",
+            msg: 'Nope!',
         });
     }
 });
