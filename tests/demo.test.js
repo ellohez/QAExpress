@@ -2,6 +2,7 @@
 const {expect} = require("chai");
 const {isPrime} = require("../maths");
 
+// Describe a test "suite" with the given title and callback fn containing nested suites.
 describe("test suite", ()=> {
 
     // Basic test 1 + 1 = 2
@@ -9,7 +10,7 @@ describe("test suite", ()=> {
         expect(1 + 1).to.equal(2);
     })
 
-    let nonPrimes = [4, 32, 74, 54, 600];
+    let nonPrimes = [1, 4, 32, 74, 54, 600];
     nonPrimes.forEach(value => {
         it(`${value} is not a prime`, () => {
             expect(isPrime(value)).to.equal(false);
